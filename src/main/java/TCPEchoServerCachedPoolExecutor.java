@@ -16,10 +16,9 @@ public class TCPEchoServerCachedPoolExecutor {
         int echoServPort = Integer.parseInt(args[0]); // Server port
         Logger logger = Logger.getLogger("cached-executor");
 
-        // Create a server socket to accept client connection requests
         ServerSocket servSock = new ServerSocket(echoServPort);
 
-        // Create cached thread pool executor (similar to thread per connection)
+        // Create cached thread pool executor
         ExecutorService executor = Executors.newCachedThreadPool();
 
         // Shutdown hook to properly close executor

@@ -7,9 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class EchoProtocol implements Runnable {
-    private static final int BUFSIZE = 1024;   // Larger buffer
-    private Socket clntSock;                   // Client socket
-    private Logger logger;                     // Server logger
+    private static final int BUFSIZE = 1024;
+    private Socket clntSock;
+    private Logger logger;
 
     public EchoProtocol(Socket clntSock, Logger logger) {
         this.clntSock = clntSock;
@@ -21,8 +21,8 @@ public class EchoProtocol implements Runnable {
         logger.info("Handling client at " + clientAddress);
 
         try {
-            // Set short socket timeout for JMeter compatibility
-            clntSock.setSoTimeout(2000); // 2 second timeout
+
+            clntSock.setSoTimeout(2000);
 
             InputStream in = clntSock.getInputStream();
             OutputStream out = clntSock.getOutputStream();
@@ -30,20 +30,18 @@ public class EchoProtocol implements Runnable {
             byte[] receiveBuf = new byte[BUFSIZE];
             ByteArrayOutputStream messageBuffer = new ByteArrayOutputStream();
 
-            // Read all available data
             try {
                 int recvMsgSize;
                 while ((recvMsgSize = in.read(receiveBuf)) != -1) {
                     messageBuffer.write(receiveBuf, 0, recvMsgSize);
 
-                    // Check if we have a complete message (ends with newline or no more data coming)
+
                     if (recvMsgSize < BUFSIZE) {
-                        // Likely end of message
                         break;
                     }
                 }
             } catch (SocketTimeoutException e) {
-                // Timeout means client is done sending - this is normal for JMeter
+
                 logger.info("Client finished sending data (timeout) - processing message");
             }
 
@@ -67,7 +65,6 @@ public class EchoProtocol implements Runnable {
 
                 logger.info("Echoed " + fullMessage.length + " bytes to " + clientAddress);
 
-                // Give client time to read response
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException ex) {
@@ -76,7 +73,6 @@ public class EchoProtocol implements Runnable {
             }
 
         } catch (SocketException ex) {
-            // Expected when client closes connection
             logger.info("Client " + clientAddress + " disconnected: " + ex.getMessage());
         } catch (IOException ex) {
             logger.log(Level.WARNING, "IOException with client " + clientAddress, ex);
