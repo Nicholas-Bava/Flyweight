@@ -47,6 +47,5 @@ public class TCPEchoServerSingleExecutor {
                 logger.warning("Client accept failed: " + ex.getMessage());
             }
         }
-        /* NOT REACHED */
     }
 }

@@ -26,6 +26,5 @@ public class TCPEchoServerThread {
             thread.start();
             logger.info("Created and started Thread " + thread.getName());
         }
-        /* NOT REACHED */
     }
 }

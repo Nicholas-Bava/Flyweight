@@ -49,6 +49,5 @@ public class TCPEchoServerCachedPoolExecutor {
                 logger.warning("Client accept failed: " + ex.getMessage());
             }
         }
-        /* NOT REACHED */
     }
 }
